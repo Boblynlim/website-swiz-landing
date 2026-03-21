@@ -69,7 +69,7 @@ export default function HomePage() {
           </h1>
 
           <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white/90 max-w-5xl mx-auto mb-8 md:mb-12 leading-relaxed px-2">
-            We save program directors, chiefs, administrators and attendings hundreds of hours through our cutting-edge approach to <span className="text-yellow-400 font-semibold">resident, fellow, and faculty scheduling.</span>
+            We save program directors, chiefs, administrators and attendings hundreds of hours through our cutting-edge approach to <span className="text-yellow-400 font-semibold">resident, fellow, and faculty schedule creation.</span>
           </p>
 
           <div className="mb-8 md:mb-10">
@@ -122,7 +122,7 @@ export default function HomePage() {
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">
             The First Effective <span className="text-yellow-400">GME & Attending</span><br className="hidden sm:block" />{" "}Scheduling Service.
           </h2>
-          <p className="text-white/70 mb-10 max-w-2xl mx-auto">Resident, fellow and attending scheduling - tailored for any specialty.</p>
+          <p className="text-white/70 mb-10 max-w-2xl mx-auto">Resident, fellow, and attending scheduling - tailored for any specialty.</p>
           <div className="flex flex-wrap justify-center gap-3">
             {["Reduce scheduling time by 95%+", "Handling your most complex and granular rules", "Seamless workflow integration"].map((text) => (
               <span key={text} className="smooth-pill bg-white/10 backdrop-blur-sm border border-white/10 text-white/70 px-5 py-2.5 rounded-full text-sm font-medium cursor-default hover:bg-white/15 hover:text-white/90">
