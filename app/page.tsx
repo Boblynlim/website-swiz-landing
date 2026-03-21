@@ -176,7 +176,7 @@ export default function HomePage() {
           <div className="max-w-3xl mx-auto">
             {/* Carousel */}
             <Link href={`/customers?t=${activeTestimonial}#testimonial`} className="block group">
-              <div className="relative overflow-hidden rounded-2xl cursor-pointer" style={{ height: '420px' }}>
+              <div className="relative overflow-hidden rounded-2xl cursor-pointer h-[620px] sm:h-[500px] md:h-[420px]">
                 {testimonials.map((t, i) => (
                   <div
                     key={i}
