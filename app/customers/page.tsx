@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import Image from "next/image"
 
@@ -33,10 +33,8 @@ const customers = [
   },
 ]
 
-export default function CustomersPage() {
+function useTestimonialParam(setSelected: (i: number) => void) {
   const searchParams = useSearchParams()
-  const [selected, setSelected] = useState(0)
-
   useEffect(() => {
     const t = searchParams.get('t')
     if (t !== null) {
@@ -44,7 +42,6 @@ export default function CustomersPage() {
       if (index >= 0 && index < customers.length) {
         setSelected(index)
       }
-      // Scroll to testimonial section after a brief delay for render
       setTimeout(() => {
         const el = document.getElementById('testimonial')
         if (el) {
@@ -52,7 +49,17 @@ export default function CustomersPage() {
         }
       }, 300)
     }
-  }, [searchParams])
+  }, [searchParams, setSelected])
+  return null
+}
+
+function TestimonialParamReader({ setSelected }: { setSelected: (i: number) => void }) {
+  useTestimonialParam(setSelected)
+  return null
+}
+
+export default function CustomersPage() {
+  const [selected, setSelected] = useState(0)
 
   const scrollToContent = () => {
     const contentSection = document.getElementById('content-section')
@@ -63,6 +70,9 @@ export default function CustomersPage() {
 
   return (
     <>
+      <Suspense fallback={null}>
+        <TestimonialParamReader setSelected={setSelected} />
+      </Suspense>
       {/* Hero Section */}
       <section className="hero-background medical-pattern min-h-screen flex items-center justify-center relative">
         <div className="max-w-7xl mx-auto px-8 text-center">
