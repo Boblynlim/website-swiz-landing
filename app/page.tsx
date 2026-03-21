@@ -1,10 +1,58 @@
 "use client"
 
+import { useState, useEffect, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
+import LogoCarousel from "@/components/logo-carousel"
+
+const testimonials = [
+  {
+    quote: "We used Scheduling Wizard to create our fellowship block schedule for our training program. We provided the team with the vacation requests of our clinical fellows and scheduling requirements for various rotations, and Scheduling Wizard quickly followed up with a couple of clarifying questions. Within such a short time, our yearly block fellowship schedule was complete!\n\nAs a chief fellow, scheduling can be one of the most stressful and time-consuming parts of the role, but Scheduling Wizard made the entire process seamless. I would highly recommend their services to any program looking for a reliable and efficient way to build equitable schedules!",
+    author: "Miriam Quinlan",
+    role: "Clinical Fellow, Johns Hopkins Neurocritical Care Fellowship",
+    initials: "MQ",
+  },
+  {
+    quote: "This was Mass General Neurology's first year working with Scheduling Wizard. Our schedules are quite complex, and we were initially skeptical but hopeful about Scheduling Wizard's work with us. They completely delivered on their promises, making it a great overall experience. They were extremely responsive and crafted a schedule that met each of our program's specific requests and requirements. They were excellent and I could not recommend them more.",
+    author: "Ashwin Amurthur",
+    role: "Chief Resident, Mass General Neurology Residency",
+    initials: "AA",
+  },
+]
 
 export default function HomePage() {
+  const [typedText, setTypedText] = useState("")
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [activeTestimonial, setActiveTestimonial] = useState(0)
+  const fullText = "Again."
+
+  useEffect(() => {
+    let timeout: NodeJS.Timeout
+
+    if (!isDeleting && typedText.length < fullText.length) {
+      timeout = setTimeout(() => {
+        setTypedText(fullText.slice(0, typedText.length + 1))
+      }, 120)
+    } else if (!isDeleting && typedText.length === fullText.length) {
+      timeout = setTimeout(() => setIsDeleting(true), 3000)
+    } else if (isDeleting && typedText.length > 0) {
+      timeout = setTimeout(() => {
+        setTypedText(fullText.slice(0, typedText.length - 1))
+      }, 80)
+    } else if (isDeleting && typedText.length === 0) {
+      timeout = setTimeout(() => setIsDeleting(false), 800)
+    }
+
+    return () => clearTimeout(timeout)
+  }, [typedText, isDeleting])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveTestimonial((prev) => (prev + 1) % testimonials.length)
+    }, 8000)
+    return () => clearInterval(interval)
+  }, [])
+
   const scrollToContent = () => {
     window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })
   }
@@ -15,36 +63,41 @@ export default function HomePage() {
       <section className="hero-background medical-pattern min-h-screen flex items-center justify-center relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl hero-text text-white mb-4 sm:mb-6 md:mb-8">
-            <span className="hero-text-bold block">Improve your program's</span>
-            <span className="hero-text-bold text-yellow-400 block mt-2">schedule creation</span>
+            <span className="hero-text-bold hero-glow">Never Schedule </span>
+            <span className="hero-text-bold text-yellow-400">{typedText}</span>
+            <span className="hero-cursor">|</span>
           </h1>
 
-          <p className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-white/90 max-w-6xl mx-auto mb-8 md:mb-12 leading-relaxed px-2">
-            We save residency program directors, chief residents, and attending physicians 
-            hundreds of hours through our cutting-edge approach to Block, Call, Clinic, and Attending schedule creation.
+          <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white/90 max-w-5xl mx-auto mb-8 md:mb-12 leading-relaxed px-2">
+            We save program directors, chiefs, administrators and attendings hundreds of hours through our cutting-edge approach to <span className="text-yellow-400 font-semibold">resident, fellow, and faculty scheduling.</span>
           </p>
 
-          <Link href="/contact">
-            <Button className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold text-lg sm:text-xl md:text-2xl px-8 sm:px-12 md:px-16 lg:px-24 py-4 sm:py-6 md:py-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-              Take back your time!
-            </Button>
-          </Link>
+          <div className="mb-8 md:mb-10">
+            <span className="inline-block border border-white/20 text-white/70 text-xs sm:text-sm font-medium uppercase tracking-widest px-5 py-2 rounded-full backdrop-blur-sm">
+              Serving 20+ Departments
+            </span>
+          </div>
+
+          <a href="https://calendly.com/zacdermody-schedulingwiz/new-meeting?back=1&month=2025-10" target="_blank" rel="noopener noreferrer" className="group relative inline-flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 text-white font-medium text-base sm:text-lg px-8 sm:px-10 py-3.5 sm:py-4 rounded-lg hover:bg-white/20 hover:border-white/40 hover:shadow-[0_8px_32px_rgba(255,255,255,0.1)] transition-all duration-500 cursor-pointer">
+            <span className="relative z-10">Take back your time</span>
+            <svg className="w-4 h-4 sm:w-5 sm:h-5 relative z-10 text-yellow-400 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
         </div>
 
-        {/* Scroll Indicator - Permanent small arrow */}
-        <div 
+        <div
           onClick={scrollToContent}
           className="absolute bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer group"
         >
           <div className="flex flex-col items-center">
-            <span className="text-white/70 text-xs font-medium uppercase tracking-wider mb-1 group-hover:text-white transition-colors">
+            <span className="text-white/50 text-xs font-medium uppercase tracking-wider mb-1 group-hover:text-white/80 transition-colors duration-300">
               Scroll Down
             </span>
-            {/* Small arrow indicator */}
-            <svg 
-              className="w-4 h-4 text-white/70 group-hover:text-white transition-colors animate-bounce" 
-              fill="none" 
-              stroke="currentColor" 
+            <svg
+              className="w-4 h-4 text-white/50 group-hover:text-white/80 transition-colors duration-300 animate-bounce"
+              fill="none"
+              stroke="currentColor"
               viewBox="0 0 24 24"
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -53,94 +106,118 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Content Section */}
-      <section className="bg-white py-12 sm:py-16 md:py-20">
+      {/* Logo Carousel Section */}
+      <section className="bg-white py-14 sm:py-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Trusted By */}
-          <div className="text-center mb-12 sm:mb-16 md:mb-20">
-            <p className="text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wide mb-6 sm:mb-8">
-              Trusted by Leading Medical Institutions
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-6 md:gap-12 items-center">
-              <div className="flex items-center justify-center">
-                <Image
-                  src="/johns-hopkins-logo.png"
-                  alt="Johns Hopkins"
-                  width={120}
-                  height={80}
-                  className="max-h-10 sm:max-h-12 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity"
-                />
-              </div>
-              <div className="flex items-center justify-center">
-                <Image
-                  src="/mass-general-brigham-logo.png"
-                  alt="Mass General Brigham"
-                  width={160}
-                  height={80}
-                  className="max-h-10 sm:max-h-12 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity"
-                />
-              </div>
-              <div className="flex items-center justify-center">
-                <Image
-                  src="/hca-healthcare-logo.png"
-                  alt="HCA Healthcare"
-                  width={140}
-                  height={80}
-                  className="max-h-10 sm:max-h-12 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity"
-                />
-              </div>
-            </div>
+          <p className="text-xs font-medium text-gray-400 uppercase tracking-widest mb-10 text-center">
+            Trusted by Leading Medical Institutions
+          </p>
+          <LogoCarousel />
+        </div>
+      </section>
+
+      {/* GME Tagline - DARK */}
+      <section className="hero-background medical-pattern py-16 sm:py-20 relative overflow-hidden">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">
+            The First Effective <span className="text-yellow-400">GME & Attending</span><br className="hidden sm:block" />{" "}Scheduling Service.
+          </h2>
+          <p className="text-white/70 mb-10 max-w-2xl mx-auto">Resident, fellow and attending scheduling - tailored for any specialty.</p>
+          <div className="flex flex-wrap justify-center gap-3">
+            {["Reduce scheduling time by 95%+", "Handling your most complex and granular rules", "Seamless workflow integration"].map((text) => (
+              <span key={text} className="smooth-pill bg-white/10 backdrop-blur-sm border border-white/10 text-white/70 px-5 py-2.5 rounded-full text-sm font-medium cursor-default hover:bg-white/15 hover:text-white/90">
+                {text}
+              </span>
+            ))}
           </div>
+        </div>
+      </section>
 
-          {/* Features Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-            <div className="bg-gray-50 rounded-2xl p-6 sm:p-8 text-center">
-              <h3 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-3 sm:mb-4">Block Schedules</h3>
-              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
-                Automated generation of rotation blocks with resident preferences and educational requirements built-in.
-              </p>
-            </div>
-
-            <div className="bg-gray-50 rounded-2xl p-6 sm:p-8 text-center">
-              <h3 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-3 sm:mb-4">Clinic Schedules</h3>
-              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
-                Optimize clinic assignments balancing educational goals with patient care requirements.
-              </p>
-            </div>
-
-            <div className="bg-gray-50 rounded-2xl p-6 sm:p-8 text-center">
-              <h3 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-3 sm:mb-4">Call Schedules</h3>
-              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
-                Fair and efficient call distribution with ACGME duty hour compliance and coverage optimization.
-              </p>
-            </div>
-
-            <div className="bg-gray-50 rounded-2xl p-6 sm:p-8 text-center">
-              <h3 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-3 sm:mb-4">Attending Schedules</h3>
-              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
-                Meeting contractual obligations, ensuring fair coverage distribution, and easily handling time-off requests.
-              </p>
-            </div>
+      {/* Building Every Schedule */}
+      <section className="bg-white py-14 sm:py-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8 tracking-tight">Building Every Schedule</h2>
+          <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
+            {["Block", "Daily Call", "Clinic"].map((type) => (
+              <span key={type} className="smooth-pill bg-gray-900 text-white px-6 py-3 rounded-xl text-sm sm:text-base font-medium hover:bg-gray-800 cursor-default">
+                {type}
+              </span>
+            ))}
+            <span className="smooth-pill bg-gray-100 text-gray-400 px-6 py-3 rounded-xl text-sm sm:text-base font-medium italic cursor-default">
+              & others
+            </span>
           </div>
+        </div>
+      </section>
 
-          {/* Testimonial Section */}
-          <div className="mt-12 sm:mt-16 md:mt-20 bg-blue-50 rounded-3xl p-6 sm:p-8 md:p-10">
-            <div className="max-w-4xl mx-auto text-center">
-              <blockquote className="text-sm sm:text-base md:text-lg text-gray-700 leading-relaxed mb-6">
-                <p className="mb-4">
-                  "We used Scheduling Wizard to create our fellowship block schedule for our training program. We provided the team with the vacation requests of our clinical fellows and scheduling requirements for various rotations, and Scheduling Wizard quickly followed up with a couple of clarifying questions. Within such a short time, our yearly block fellowship schedule was complete!"
-                </p>
-                <p>
-                  "As a chief fellow, scheduling can be one of the most stressful and time-consuming parts of the role, but Scheduling Wizard made the entire process seamless. I would highly recommend their services to any program looking for a reliable and efficient way to build equitable schedules!"
-                </p>
-              </blockquote>
-              
-              <div className="flex items-center justify-center">
-                <div>
-                  <p className="font-semibold text-gray-900 text-sm sm:text-base">Miriam Quinlan</p>
-                  <p className="text-xs sm:text-sm text-gray-600">Clinical Fellow, Johns Hopkins Neurocritical Care Fellowship</p>
-                </div>
+      {/* Departments Section - DARK */}
+      <section className="hero-background medical-pattern py-14 sm:py-20 relative overflow-hidden">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4 tracking-tight">Serving Any Department</h2>
+          </div>
+          <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
+            {["Neurology", "Internal Medicine", "Emergency Medicine", "Family Medicine", "General Surgery", "Psychiatry", "Urology", "Neurocritical Care", "Pediatrics"].map((dept) => (
+              <span key={dept} className="smooth-pill bg-white/10 backdrop-blur-sm border border-white/10 text-white px-6 py-3 rounded-xl text-sm sm:text-base font-medium hover:bg-white/20 cursor-default transition-all duration-300">
+                {dept}
+              </span>
+            ))}
+            <span className="smooth-pill bg-white/5 border border-white/10 text-white/40 px-6 py-3 rounded-xl text-sm sm:text-base font-medium italic cursor-default">
+              & others
+            </span>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="bg-white py-14 sm:py-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-12 text-center tracking-tight">Testimonials</h2>
+          <div className="max-w-3xl mx-auto">
+            {/* Carousel */}
+            <Link href={`/customers?t=${activeTestimonial}#testimonial`} className="block group">
+              <div className="relative overflow-hidden rounded-2xl cursor-pointer" style={{ height: '420px' }}>
+                {testimonials.map((t, i) => (
+                  <div
+                    key={i}
+                    className={`absolute inset-0 glass-card rounded-2xl p-8 sm:p-10 transition-all duration-700 ease-in-out flex flex-col justify-center group-hover:shadow-[0_16px_48px_rgba(0,0,0,0.08)] ${
+                      activeTestimonial === i
+                        ? "opacity-100 translate-x-0"
+                        : "opacity-0 translate-x-8 pointer-events-none"
+                    }`}
+                  >
+                    <p className="text-2xl text-yellow-400/60 font-serif leading-none mb-4">&ldquo;</p>
+                    <blockquote className="text-sm sm:text-base text-gray-600 leading-relaxed mb-6 text-left whitespace-pre-line">
+                      {t.quote}
+                    </blockquote>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 font-semibold text-xs">{t.initials}</div>
+                        <div>
+                          <p className="font-semibold text-gray-900 text-sm">{t.author}</p>
+                          <p className="text-xs text-gray-400">{t.role}</p>
+                        </div>
+                      </div>
+                      <svg className="w-5 h-5 text-gray-300 group-hover:text-yellow-400 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </div>
+                ))}
               </div>
+            </Link>
+
+            {/* Dots */}
+            <div className="flex justify-center gap-2 mt-6">
+              {testimonials.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={(e) => { e.preventDefault(); setActiveTestimonial(i) }}
+                  className={`w-2 h-2 rounded-full transition-all duration-500 cursor-pointer ${
+                    activeTestimonial === i ? "bg-yellow-400 w-6" : "bg-gray-300 hover:bg-gray-400"
+                  }`}
+                />
+              ))}
             </div>
           </div>
         </div>

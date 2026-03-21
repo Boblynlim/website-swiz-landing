@@ -52,27 +52,25 @@ export default function ContactPage() {
       <section className="hero-background medical-pattern min-h-screen flex items-center justify-center relative">
         <div className="max-w-7xl mx-auto px-8 text-center">
           <h1 className="text-6xl md:text-7xl lg:text-8xl hero-text text-white mb-8">
-            Get in <span className="hero-text-bold text-yellow-400">Touch</span>
+            Get in <span className="text-yellow-400">Touch</span>
           </h1>
-          <p className="text-xl text-white/80 max-w-2xl mx-auto">
-            Ready to save hundreds of hours on scheduling? Let's discuss how we can transform your program.
+          <p className="text-lg text-white/60 max-w-2xl mx-auto">
+            Ready to save hundreds of hours on scheduling? Let&apos;s meet!
           </p>
         </div>
 
-        {/* Scroll Indicator - Permanent small arrow */}
-        <div 
+        <div
           onClick={scrollToContent}
           className="absolute bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer group"
         >
           <div className="flex flex-col items-center">
-            <span className="text-white/70 text-xs font-medium uppercase tracking-wider mb-1 group-hover:text-white transition-colors">
+            <span className="text-white/50 text-xs font-medium uppercase tracking-wider mb-1 group-hover:text-white/80 transition-colors duration-300">
               Scroll Down
             </span>
-            {/* Small arrow indicator */}
-            <svg 
-              className="w-4 h-4 text-white/70 group-hover:text-white transition-colors animate-bounce" 
-              fill="none" 
-              stroke="currentColor" 
+            <svg
+              className="w-4 h-4 text-white/50 group-hover:text-white/80 transition-colors duration-300 animate-bounce"
+              fill="none"
+              stroke="currentColor"
               viewBox="0 0 24 24"
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -87,25 +85,24 @@ export default function ContactPage() {
           <div className="grid lg:grid-cols-2 gap-16">
             {/* Form */}
             <div>
-            
-              <h2 className="text-3xl font-semibold text-gray-900 mb-8">Send us a message</h2>
+              <h2 className="text-3xl font-semibold text-gray-900 mb-8 tracking-tight">Send us a message</h2>
 
               {submitStatus && (
                 <div
-                  className={`mb-6 p-4 rounded-lg ${
+                  className={`mb-6 p-4 rounded-xl text-sm ${
                     submitStatus.type === "success"
-                      ? "bg-green-50 text-green-800 border border-green-200"
-                      : "bg-red-50 text-red-800 border border-red-200"
+                      ? "bg-green-50 text-green-700 border border-green-100"
+                      : "bg-red-50 text-red-700 border border-red-100"
                   }`}
                 >
                   {submitStatus.message}
                 </div>
               )}
 
-              <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="name" className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
                       Name *
                     </label>
                     <Input
@@ -115,10 +112,11 @@ export default function ContactPage() {
                       required
                       placeholder="Your name"
                       disabled={isSubmitting}
+                      className="rounded-lg border-gray-200 focus:border-gray-400 focus:ring-0 transition-colors duration-300"
                     />
                   </div>
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="email" className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
                       Email Address *
                     </label>
                     <Input
@@ -128,12 +126,13 @@ export default function ContactPage() {
                       required
                       placeholder="your.email@example.com"
                       disabled={isSubmitting}
+                      className="rounded-lg border-gray-200 focus:border-gray-400 focus:ring-0 transition-colors duration-300"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="company" className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
                     Medical Institution
                   </label>
                   <Input
@@ -142,11 +141,12 @@ export default function ContactPage() {
                     type="text"
                     placeholder="Your hospital or medical center"
                     disabled={isSubmitting}
+                    className="rounded-lg border-gray-200 focus:border-gray-400 focus:ring-0 transition-colors duration-300"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="subject" className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
                     Subject
                   </label>
                   <Input
@@ -155,11 +155,12 @@ export default function ContactPage() {
                     type="text"
                     placeholder="What can we help you with?"
                     disabled={isSubmitting}
+                    className="rounded-lg border-gray-200 focus:border-gray-400 focus:ring-0 transition-colors duration-300"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="message" className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
                     Message *
                   </label>
                   <Textarea
@@ -167,14 +168,15 @@ export default function ContactPage() {
                     name="message"
                     required
                     rows={6}
-                    placeholder="Tell us about your program's scheduling challenges; let's set up a meeting!"
+                    placeholder="Tell us about your scheduling challenges; let's set up a meeting!"
                     disabled={isSubmitting}
+                    className="rounded-lg border-gray-200 focus:border-gray-400 focus:ring-0 transition-colors duration-300"
                   />
                 </div>
 
                 <Button
                   type="submit"
-                  className="w-full bg-gray-900 hover:bg-gray-800 text-white py-3"
+                  className="w-full bg-gray-900 hover:bg-gray-800 text-white py-3 rounded-lg btn-smooth"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? "Sending..." : "Send Message"}
@@ -183,24 +185,23 @@ export default function ContactPage() {
             </div>
 
             {/* Contact Info */}
-            <div className="space-y-8">
-              <div className="bg-gray-50 rounded-2xl p-6">
+            <div className="space-y-6">
+              <div className="glass-card rounded-2xl p-6">
                 <div className="flex items-start space-x-4">
-                  <Mail className="w-6 h-6 text-blue-600 mt-1" />
+                  <Mail className="w-5 h-5 text-gray-400 mt-0.5" />
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Email Us</h3>
-                    <p className="text-gray-600">CEO: Sam@schedulingwiz.com</p>
+                    <h3 className="font-semibold text-gray-900 text-sm mb-1">Email Us</h3>
+                    <a href="mailto:founders@schedulingwiz.com" className="text-gray-500 text-sm hover:text-gray-700 transition-colors duration-300">founders@schedulingwiz.com</a>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-gray-50 rounded-2xl p-6">
+              <div className="glass-card rounded-2xl p-6">
                 <div className="flex items-start space-x-4">
-                  <Phone className="w-6 h-6 text-blue-600 mt-1" />
+                  <Phone className="w-5 h-5 text-gray-400 mt-0.5" />
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Call Us</h3>
-                    <p className="text-gray-600">Sam: (302) 932-1448</p>
-                    <p className="text-sm text-gray-500">Call Anytime!</p>
+                    <h3 className="font-semibold text-gray-900 text-sm mb-1">Call Us</h3>
+                    <p className="text-gray-500 text-sm">(302) 932-1448</p>
                   </div>
                 </div>
               </div>
