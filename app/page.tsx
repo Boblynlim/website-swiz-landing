@@ -84,7 +84,7 @@ export default function HomePage() {
           </h1>
 
           <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white/90 max-w-5xl mx-auto mb-8 md:mb-12 leading-relaxed px-2">
-            We save program directors, chiefs, admins, and attendings hundreds of hours through our cutting-edge approach to <span className="text-yellow-400 font-semibold">resident &amp; faculty schedule creation.</span>
+            We save program directors, chiefs, admins, and attendings hundreds of hours through our cutting-edge approach to <span className="text-yellow-400 font-semibold">physician schedule creation.</span>
           </p>
 
           <div className="mb-8 md:mb-10">
