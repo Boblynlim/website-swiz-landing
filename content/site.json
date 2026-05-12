@@ -78,12 +78,10 @@
     "heading": "Use Cases",
     "description": "From neurology block schedules to surgery call rotations — see how Scheduling Wizard handles the most complex requirements across every department.",
     "categoryLabels": {
-      "department": "By Department",
-      "specialty": "By Specialty",
-      "role": "By Role",
-      "setting": "By Setting",
-      "schedule-type": "By Schedule Type",
-      "competitor": "Alternatives"
+      "role": "role",
+      "setting": "setting",
+      "specialty": "specialty",
+      "competitor": "competitor"
     },
     "sitemap": {
       "priority": 0.9,
